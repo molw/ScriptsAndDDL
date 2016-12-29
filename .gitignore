@@ -87,3 +87,10 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+#my custom adds
+/venv/
+/ebird/all_obs.sql
+/ebird/birdsample_larger.csv
+/ebird/birdobs.ddl
+/marine/all_obs.sql

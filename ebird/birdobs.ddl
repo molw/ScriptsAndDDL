@@ -6,7 +6,7 @@ CREATE TABLE birdobs (
 
   global_unique_identifier VARCHAR(46) CONSTRAINT firstkey PRIMARY KEY,
   taxonomic_order FLOAT,
-  taxonomic_category VARCHAR,
+  category VARCHAR,
   common_name VARCHAR,
   scientific_name VARCHAR,
   subspecies_common_name VARCHAR,
