@@ -12,6 +12,15 @@
             </array>
           </option>
         </State>
+        <State>
+          <option name="id" value="e79beccb-f329-4d41-aedb-bfaa2e19ad44" />
+          <option name="name" value="DDL data source" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/marine/marineobs.ddl" />
+            </array>
+          </option>
+        </State>
       </list>
     </option>
   </component>

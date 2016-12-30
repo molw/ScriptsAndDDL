@@ -4,7 +4,7 @@ DROP TABLE marineobs;
 
 CREATE TABLE marineobs (
 
-marine_observation_id BIGSERIAL CONSTRAINT firstkey PRIMARY KEY,
+marine_observation_id BIGSERIAL CONSTRAINT marine_firstkey PRIMARY KEY,
 identification VARCHAR,
 location GEOMETRY(POINT,4326),
 time_of_observation TIMESTAMPTZ,
