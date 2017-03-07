@@ -1,0 +1,120 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "masterdb",
+        "creationTimestamp": null,
+        "annotations": {
+            "description": "PostgreSQL Replication Example",
+            "iconClass": "icon-database",
+            "tags": "database,postgresql,replication"
+        }
+    },
+    "parameters": [{
+        "name": "CCP_IMAGE_TAG",
+        "description": "the image tag to use",
+        "value": "centos7-9.5-1.2.2"
+    }],
+    "objects": [{
+        "kind": "DeploymentConfig",
+        "apiVersion": "v1",
+        "metadata": {
+            "name": "masterdb",
+            "creationTimestamp": null
+        },
+        "spec": {
+            "strategy": {
+                "type": "Recreate",
+                "resources": {}
+            },
+            "triggers": [{
+                "type": "ConfigChange"
+            }],
+            "replicas": 1,
+            "selector": {
+                "name": "masterdb"
+            },
+            "template": {
+                "metadata": {
+                    "creationTimestamp": null,
+                    "labels": {
+                        "name": "masterdb"
+                    }
+                },
+                "spec": {
+                    "containers": [{
+                        "name": "pg",
+                        "image": "crunchydata/crunchy-postgres:${CCP_IMAGE_TAG}",
+                        "ports": [{
+                            "containerPort": 5432,
+                            "protocol": "TCP"
+                        }],
+                        "env": [{
+                                    "name": "PG_MASTER_USER",
+                                    "value": "master"
+                                }, {
+                                    "name": "PG_MODE",
+                                    "value": "master"
+                                }, {
+                                    "name": "PG_MASTER_PASSWORD",
+                                    "value": "password"
+                                }, {
+                                    "name": "PG_USER",
+                                    "value": "testuser"
+                                }, {
+                                    "name": "PG_PASSWORD",
+                                    "value": "password"
+                                }, {
+                                    "name": "PG_DATABASE",
+                                    "value": "spatialdb"
+                                }, {
+                                    "name": "PG_ROOT_PASSWORD",
+                                    "value": "password"
+                                }],
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "securityContext": {
+                            "privileged": false
+                        },
+                        "volumeMounts": [{
+                            "mountPath": "/pgdata",
+                            "name": "pgdata",
+                            "readOnly": false
+                        }]
+
+                    }],
+                    "volumes": [{
+                        "name": "pgdata",
+                        "emptyDir": {}
+                    }],
+
+                    "restartPolicy": "Always",
+                    "dnsPolicy": "ClusterFirst"
+                }
+            }
+        }
+    },{
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "masterdb",
+                "labels": {
+                    "name": "masterdb"
+                }
+            },
+            "spec": {
+                "ports": [{
+                    "protocol": "TCP",
+                    "port": 5432,
+                    "targetPort": 5432,
+                    "nodePort": 0
+                }],
+                "selector": {
+                    "name": "masterdb"
+                },
+                "type": "ClusterIP",
+                "sessionAffinity": "None"
+            }
+    }
+  ]
+}
