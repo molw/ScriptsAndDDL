@@ -16,8 +16,13 @@ command
 5. Once inside the pod (password for postgres is the word "password"):
 
        psql -U postgres -h 127.0.0.1 -W
+
        create database molw;
+
        \q
+
        cd /tmp/ebird/
+
        psql -U postgres -h 127.0.0.1 -W -f birdobs.ddl molw #you can ignore the error
+       
        psql -U postgres -h 127.0.0.1 -W -f small.sql molw
